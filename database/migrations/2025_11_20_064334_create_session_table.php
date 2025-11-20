@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('session_table', function (Blueprint $table) {
             $table->id('session_id')->unique()->autoIncrement();
             $table->string('session_name');
+            $table->unsignedBigInteger('event_id');
+
+            $table->foreign('event_id')->references('event_id')->on('event_table')->onDelete('cascade');
         });
-    }    
+    }
     /**
      * Reverse the migrations.
      */

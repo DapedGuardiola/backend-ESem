@@ -15,12 +15,15 @@ return new class extends Migration
             $table->id('user_id')->unique()->autoIncrement();
             $table->unsignedBigInteger('role_id');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
 
             $table->foreign('role_id')
-            ->references('role_id')
-            ->on('role_table')
-            ->onDelete('cascade');
+                ->references('role_id')
+                ->on('role_table')
+                ->onDelete('cascade');
         });
     }
 
