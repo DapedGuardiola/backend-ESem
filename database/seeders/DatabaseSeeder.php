@@ -28,14 +28,14 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $this->call([
-        // event::class,
+        event::class,
         session_table::class,      // Contoh: Memanggil seeder peran
-        // role::class,      // Contoh: Memanggil seeder pengguna
-        // registered::class,     // Contoh: Memanggil seeder acara
+        registered::class,     // Contoh: Memanggil seeder acara
         participant::class,     // Contoh: Memanggil seeder acara
+        role::class,      // Contoh: Memanggil seeder pengguna
         user_table::class,     // Contoh: Memanggil seeder acara
-        event_detail::class,     // Contoh: Memanggil seeder acara
         user_detail::class,     // Contoh: Memanggil seeder acara
+        event_detail::class,     // Contoh: Memanggil seeder acara
         // Pastikan semua seeder yang Anda buat ada di sini
     ]);
     }

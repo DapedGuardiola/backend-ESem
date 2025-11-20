@@ -16,12 +16,15 @@ class session_table extends Seeder
         $sessions = [
             [
                 'session_name' => 'Pembukaan dan Keynote Speaker',
+                'event_id' => 1
             ],
             [
                 'session_name' => 'Core Session',
+                'event_id' => 1
             ],
             [
                 'session_name' => 'Closing Event',
+                'event_id' => 1
             ],
         ];
 

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,15 +13,15 @@ return new class extends Migration
         Schema::create('registered_table', function (Blueprint $table) {
             $table->id('registered_id')->unique()->autoIncrement();
             $table->unsignedBigInteger('event_id');
-            $table->string('registered_name');  
-            $table->string('registered_email');  
+            $table->string('registered_name');
+            $table->string('registered_email');
             $table->string('registered_phone');
             $table->boolean('payment_status');
 
             $table->foreign('event_id')
-            ->references('event_id')
-            ->on('event_table')
-            ->onDelete('cascade');
+                ->references('event_id')
+                ->on('event_table')
+                ->onDelete('cascade');
         });
     }
 
@@ -33,4 +32,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('registered_table');
     }
+
 };

@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('role_table', function (Blueprint $table) {
-            $table->id('role_id')->unique()->autoIncrement();
-            $table->string('role_type_name');
+        Schema::create('event_table', function (Blueprint $table) {
+            $table->id('event_id')->unique();
+            $table->string('event_name');
+            $table->string('event_status');
         });
     }    
     /**
@@ -21,6 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('role_table');
+        Schema::dropIfExists('event_table');
     }
+
 };
