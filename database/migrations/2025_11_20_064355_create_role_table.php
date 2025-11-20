@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('role_id')->unique()->autoIncrement();
             $table->string('role_type_name');
         });
-    }    
+    }
     /**
      * Reverse the migrations.
      */

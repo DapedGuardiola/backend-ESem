@@ -20,17 +20,17 @@ return new class extends Migration {
             $table->integer('cost');
             $table->integer('total_income');
             $table->boolean('paid_status');
-            
+
 
             $table->foreign('event_id')
-            ->references('event_id')
-            ->on('event_table')
-            ->onDelete('cascade');
+                ->references('event_id')
+                ->on('event_table')
+                ->onDelete('cascade');
 
             $table->foreign('event_handler')
-            ->references('user_id')
-            ->on('user_table')
-            ->onDelete('cascade');
+                ->references('user_id')
+                ->on('user_table')
+                ->onDelete('cascade');
         });
     }
     /**
