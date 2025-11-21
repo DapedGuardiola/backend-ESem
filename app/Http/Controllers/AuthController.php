@@ -10,6 +10,11 @@ use App\Models\UserDetail;
 
 class AuthController extends Controller
 {
+    public function User(Request $request)
+{
+    // $request->user() otomatis ambil user dari token
+    return response()->json($request->user());
+}
     public function Register(Request $req)
     {
         $rules = [
@@ -20,10 +25,13 @@ class AuthController extends Controller
             'address' => 'required|string',
             'user_phone' => 'required|string',
         ];
-        $validator = Validator::make($req->all, $rules);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 401);
+        try {
+            $req->validate($rules);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'message' => 'Validation Error',
+                'errors' => $e->errors()
+            ], 422);
         }
 
         $user = UserModel::create(

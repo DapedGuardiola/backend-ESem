@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class UserDetail extends Model
 {
     use HasFactory;
-
+    
     protected $table = "user_detail_table";
+    public $timestamps = false;
     protected $primaryKey = "user_detail_id";
     protected $fillable = [
         "user_id",

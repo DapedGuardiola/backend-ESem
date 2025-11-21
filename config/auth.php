@@ -42,6 +42,12 @@ return [
         ],
     ],
 
+    'api' => [
+        'driver' => 'sanctum',
+        'provider' => 'users', // pastikan ini model yang benar
+        //'hash' => false,
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -62,7 +68,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\UserModel::class,
         ],
 
         // 'users' => [
