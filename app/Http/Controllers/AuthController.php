@@ -85,4 +85,60 @@ class AuthController extends Controller
             'user' => $user,
         ], 201);
     }
+
+    public function me(Request $request)
+    {
+        $user = $request->user();
+        $user->load('detail');
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'user_id'    => $user->user_id,
+                'email'      => $user->email,
+                'role_id'    => $user->role_id,
+                'nama'       => $user->detail->user_name ?? '',
+                'alamat'     => $user->detail->address ?? '',
+                'telepon'    => $user->detail->user_phone ?? '',
+            ]
+        ]);
+    }
+
+    public function updateProfile(Request $req)
+    {
+        $user = $req->user();
+        $detail = $user->detail;
+
+        $rules = [
+            'user_name' => 'required|string',
+            'address' => 'required|string',
+            'user_phone' => 'required|string',
+        ];
+
+        $validator = Validator::make($req->all(), $rules);
+        
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $detail->update([
+            'user_name' => $req->user_name,
+            'address' => $req->address,
+            'user_phone' => $req->user_phone,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profil berhasil diperbarui',
+            'data' => [
+                'nama' => $detail->user_name,
+                'alamat' => $detail->address,
+                'telepon' => $detail->user_phone,
+            ]
+        ]);
+    }
 }
