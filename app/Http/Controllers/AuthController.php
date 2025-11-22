@@ -85,16 +85,22 @@ class AuthController extends Controller
             'user' => $user,
         ], 201);
     }
+
     public function me(Request $request)
     {
         $user = $request->user();
         $user->load('detail');
 
         return response()->json([
-            'id'        => $user->id,
-            'email'     => $user->email,
-            'role_id'   => $user->role_id,
-            'detail'    => $user->detail
+            'success' => true,
+            'data' => [
+                'user_id'    => $user->user_id,
+                'email'      => $user->email,
+                'role_id'    => $user->role_id,
+                'nama'       => $user->detail->user_name ?? '',
+                'alamat'     => $user->detail->address ?? '',
+                'telepon'    => $user->detail->user_phone ?? '',
+            ]
         ]);
     }
 
@@ -102,6 +108,22 @@ class AuthController extends Controller
     {
         $user = $req->user();
         $detail = $user->detail;
+
+        $rules = [
+            'user_name' => 'required|string',
+            'address' => 'required|string',
+            'user_phone' => 'required|string',
+        ];
+
+        $validator = Validator::make($req->all(), $rules);
+        
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors()
+            ], 422);
+        }
 
         $detail->update([
             'user_name' => $req->user_name,
@@ -111,7 +133,12 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Profil berhasil diperbarui'
+            'message' => 'Profil berhasil diperbarui',
+            'data' => [
+                'nama' => $detail->user_name,
+                'alamat' => $detail->address,
+                'telepon' => $detail->user_phone,
+            ]
         ]);
     }
 }
