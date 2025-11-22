@@ -85,4 +85,33 @@ class AuthController extends Controller
             'user' => $user,
         ], 201);
     }
+    public function me(Request $request)
+    {
+        $user = $request->user();
+        $user->load('detail');
+
+        return response()->json([
+            'id'        => $user->id,
+            'email'     => $user->email,
+            'role_id'   => $user->role_id,
+            'detail'    => $user->detail
+        ]);
+    }
+
+    public function updateProfile(Request $req)
+    {
+        $user = $req->user();
+        $detail = $user->detail;
+
+        $detail->update([
+            'user_name' => $req->user_name,
+            'address' => $req->address,
+            'user_phone' => $req->user_phone,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profil berhasil diperbarui'
+        ]);
+    }
 }
