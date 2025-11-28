@@ -393,9 +393,6 @@
             
             <ul class="nav-menu">
                 <li><a href="/" class="active">Home</a></li>
-                <li><a href="/trending">Trending</a></li>
-                <li><a href="/sports">Sports</a></li>
-                <li><a href="/concerts">Concerts</a></li>
                 <li><a href="/seminar">Seminar</a></li>
             </ul>
 

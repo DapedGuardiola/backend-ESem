@@ -4,7 +4,173 @@
 
 @push('styles')
 <style>
-    /* Enhanced Search Section */
+    /* Existing styles remain the same, adding new styles for booking page */
+
+    /* Booking Page Styles */
+    .booking-page {
+        padding: 40px 0;
+        background: #f9fafb;
+        min-height: 100vh;
+    }
+
+    .booking-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 40px;
+        align-items: start;
+    }
+
+    .event-details-card {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .event-header {
+        display: flex;
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+
+    .event-image {
+        width: 200px;
+        height: 200px;
+        border-radius: 12px;
+        object-fit: cover;
+        background: #f3f4f6;
+    }
+
+    .event-info h1 {
+        font-size: 28px;
+        color: #1f2937;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+
+    .event-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .event-price {
+        font-size: 24px;
+        color: #14b8a6;
+        font-weight: 700;
+        margin: 20px 0;
+    }
+
+    .event-description {
+        color: #4b5563;
+        line-height: 1.6;
+        margin-top: 20px;
+    }
+
+    .booking-form-card {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 20px;
+    }
+
+    .form-title {
+        font-size: 20px;
+        color: #1f2937;
+        margin-bottom: 25px;
+        font-weight: 600;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #374151;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+
+    .form-group input:focus {
+        border-color: #14b8a6;
+        outline: none;
+    }
+
+    .btn-proceed {
+        background: #14b8a6;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        width: 100%;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    .btn-proceed:hover {
+        background: #0d9488;
+        transform: translateY(-2px);
+    }
+
+    .payment-methods {
+        margin-top: 25px;
+        border-top: 1px solid #e5e7eb;
+        padding-top: 20px;
+    }
+
+    .payment-methods h4 {
+        margin-bottom: 15px;
+        color: #374151;
+    }
+
+    .payment-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .payment-option.selected {
+        border-color: #14b8a6;
+        background: #f0fdfa;
+    }
+
+    .payment-option input {
+        margin: 0;
+    }
+
+    /* Existing homepage styles remain unchanged */
     .search-section {
         background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
         padding: 40px 0;
@@ -221,6 +387,9 @@
         cursor: pointer;
         transition: all 0.3s;
         font-size: 14px;
+        text-decoration: none;
+        display: block;
+        text-align: center;
     }
 
     .card-btn:hover {
@@ -516,6 +685,9 @@
         cursor: pointer;
         transition: all 0.3s;
         font-size: 14px;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
     }
 
     .btn-view:hover {
@@ -534,6 +706,9 @@
         cursor: pointer;
         transition: all 0.3s;
         font-size: 14px;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
     }
 
     .btn-book:hover {
@@ -610,209 +785,316 @@
         .search-filter {
             max-width: 100%;
         }
+
+        .booking-container {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .event-header {
+            flex-direction: column;
+        }
+
+        .event-image {
+            width: 100%;
+            height: 250px;
+        }
     }
 </style>
 @endpush
 
 @section('content')
-    <!-- Enhanced Search Section -->
-    <div class="search-section">
-        <div class="container">
-            <div class="search-wrapper">
-                <div class="search-container">
-                    <span class="search-icon-left">🔍</span>
-                    <input type="text" class="search-input" id="mainSearch" placeholder="Search for events, seminars, workshops...">
-                    <button class="search-btn">
-                        <span>Search</span>
-                    </button>
+    @if(isset($isBookingPage) && $isBookingPage)
+        <!-- Booking Page -->
+        <section class="booking-page">
+            <div class="container booking-container">
+                <!-- Event Details -->
+                <div class="event-details-card">
+                    <div class="event-header">
+                        <img src="{{ $eventData['image'] }}" alt="{{ $eventData['title'] }}" class="event-image" 
+                             onerror="this.src='https://via.placeholder.com/400x400/14b8a6/ffffff?text=Event'">
+                        <div class="event-info">
+                            <h1>{{ $eventData['title'] }}</h1>
+                            <div class="event-meta">
+                                <div class="meta-item">
+                                    <span>📅</span>
+                                    <span>{{ $eventData['date'] }} • {{ $eventData['time'] }}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span>📍</span>
+                                    <span>{{ $eventData['location'] }}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span>🎤</span>
+                                    <span>Speaker: {{ $eventData['speaker'] }}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span>🏷️</span>
+                                    <span>Type: {{ ucfirst($eventData['type']) }}</span>
+                                </div>
+                            </div>
+                            <div class="event-price">{{ $eventData['price'] }}</div>
+                        </div>
+                    </div>
+                    <div class="event-description">
+                        <h3>About This Event</h3>
+                        <p>{{ $eventData['description'] }}</p>
+                    </div>
+                </div>
+
+                <!-- Booking Form -->
+                <div class="booking-form-card">
+                    <h2 class="form-title">Book Your Seat</h2>
+                    <form id="bookingForm" action="{{ route('payment.process') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="event_id" value="{{ $eventData['id'] }}">
+                        <input type="hidden" name="event_title" value="{{ $eventData['title'] }}">
+                        <input type="hidden" name="event_price" value="{{ $eventData['price'] }}">
+                        
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" required 
+                                   placeholder="Enter your full name" value="{{ old('fullName') }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required 
+                                   placeholder="Enter your email address" value="{{ old('email') }}">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required 
+                                   placeholder="Enter your phone number" value="{{ old('phone') }}">
+                        </div>
+
+                        <div class="payment-methods">
+                            <h4>Select Payment Method</h4>
+                            <div class="payment-option" onclick="selectPayment('credit_card')">
+                                <input type="radio" id="credit_card" name="payment_method" value="credit_card" required>
+                                <label for="credit_card">💳 Credit Card</label>
+                            </div>
+                            <div class="payment-option" onclick="selectPayment('bank_transfer')">
+                                <input type="radio" id="bank_transfer" name="payment_method" value="bank_transfer">
+                                <label for="bank_transfer">🏦 Bank Transfer</label>
+                            </div>
+                            <div class="payment-option" onclick="selectPayment('ewallet')">
+                                <input type="radio" id="ewallet" name="payment_method" value="ewallet">
+                                <label for="ewallet">📱 E-Wallet</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-proceed">Proceed to Payment</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    @else
+        <!-- Original Homepage Content -->
+        <!-- Enhanced Search Section -->
+        <div class="search-section">
+            <div class="container">
+                <div class="search-wrapper">
+                    <div class="search-container">
+                        <span class="search-icon-left">🔍</span>
+                        <input type="text" class="search-input" id="mainSearch" placeholder="Search for events, seminars, workshops...">
+                        <button class="search-btn">
+                            <span>Search</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-
-    <!-- Hero Banner -->
-    <section class="hero-banner">
-        <div class="container hero-content">
-            <h1>Get more benefit now!<br>with Seminar !!</h1>
-        </div>
-    </section>
-
-    <!-- Menu Options -->
-    <section class="menu-options">
-        <div class="container">
-            <div class="section-header">
-                <h2>Menu Options</h2>
-                <a href="#" class="view-all">View All</a>
+        
+        <!-- Hero Banner -->
+        <section class="hero-banner">
+            <div class="container hero-content">
+                <h1>Get more benefit now!<br>with Seminar !!</h1>
             </div>
-            <div class="cards-grid">
-                <div class="event-card">
-                    <img src="/image/image1.png" alt="Sharing Session" onerror="this.src='https://via.placeholder.com/400x320/14b8a6/ffffff?text=Sharing+Session'">
-                    <div class="card-overlay">
-                        <button class="card-btn">Register Now</button>
-                    </div>
-                </div>
-                <div class="event-card">
-                    <img src="/image/image2.png" alt="Tech Fair" onerror="this.src='https://via.placeholder.com/400x320/14b8a6/ffffff?text=Tech+Fair'">
-                    <div class="card-overlay">
-                        <button class="card-btn">Register Now</button>
-                    </div>
-                </div>
-                <div class="event-card">
-                    <img src="/image/image3.png" alt="AI Forum" onerror="this.src='https://via.placeholder.com/400x320/6b7280/ffffff?text=AI+Forum'">
-                    <div class="card-overlay">
-                        <button class="card-btn disabled">Coming Soon</button>
-                    </div>
-                </div>
-                <div class="event-card">
-                    <img src="/image/image4.png" alt="Champions" onerror="this.src='https://via.placeholder.com/400x320/6b7280/ffffff?text=Champions'">
-                    <div class="card-overlay">
-                        <button class="card-btn disabled">Coming Soon</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Recent Events -->
-    <section class="recent-events">
-        <div class="container">
-            <div class="section-header">
-                <h2>We Recent Events</h2>
+        <!-- Menu Options -->
+        <section class="menu-options">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Menu Options</h2>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="cards-grid">
+                    <div class="event-card">
+                        <img src="/image/image1.png" alt="Sharing Session" onerror="this.src='https://via.placeholder.com/400x320/14b8a6/ffffff?text=Sharing+Session'">
+                        <div class="card-overlay">
+                            <a href="{{ route('event.booking', ['eventId' => 1]) }}" class="card-btn">Register Now</a>
+                        </div>
+                    </div>
+                    <div class="event-card">
+                        <img src="/image/image2.png" alt="Tech Fair" onerror="this.src='https://via.placeholder.com/400x320/14b8a6/ffffff?text=Tech+Fair'">
+                        <div class="card-overlay">
+                            <a href="{{ route('event.booking', ['eventId' => 2]) }}" class="card-btn">Register Now</a>
+                        </div>
+                    </div>
+                    <div class="event-card">
+                        <img src="/image/image3.png" alt="AI Forum" onerror="this.src='https://via.placeholder.com/400x320/6b7280/ffffff?text=AI+Forum'">
+                        <div class="card-overlay">
+                            <button class="card-btn disabled">Coming Soon</button>
+                        </div>
+                    </div>
+                    <div class="event-card">
+                        <img src="/image/image4.png" alt="Champions" onerror="this.src='https://via.placeholder.com/400x320/6b7280/ffffff?text=Champions'">
+                        <div class="card-overlay">
+                            <button class="card-btn disabled">Coming Soon</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-            <div class="filter-controls">
-                <div class="search-filter">
-                    <span class="icon-left">🔍</span>
-                    <input type="text" class="search-filter-input" id="eventSearch" placeholder="Search events...">
-                    <span class="icon-right" id="clearSearch">✕</span>
+        </section>
+
+        <!-- Recent Events -->
+        <section class="recent-events">
+            <div class="container">
+                <div class="section-header">
+                    <h2>We Recent Events</h2>
                 </div>
                 
-                <div class="filter-dropdown">
-                    <button class="filter-btn" id="filterBtn">
-                        <span class="emoji">🔽</span>
-                        <span>Filter Events</span>
-                    </button>
-                    <div class="filter-menu" id="filterMenu">
-                        <label>
-                            <input type="checkbox" value="seminar" class="filter-checkbox"> Seminar
-                        </label>
-                        <label>
-                            <input type="checkbox" value="workshop" class="filter-checkbox"> Workshop
-                        </label>
-                        <label>
-                            <input type="checkbox" value="malang" class="filter-checkbox"> Kota Malang
-                        </label>
-                        <label>
-                            <input type="checkbox" value="surabaya" class="filter-checkbox"> Kota Surabaya
-                        </label>
+                <div class="filter-controls">
+                    <div class="search-filter">
+                        <span class="icon-left">🔍</span>
+                        <input type="text" class="search-filter-input" id="eventSearch" placeholder="Search events...">
+                        <span class="icon-right" id="clearSearch">✕</span>
                     </div>
+                    
+                    <div class="filter-dropdown">
+                        <button class="filter-btn" id="filterBtn">
+                            <span class="emoji">🔽</span>
+                            <span>Filter Events</span>
+                        </button>
+                        <div class="filter-menu" id="filterMenu">
+                            <label>
+                                <input type="checkbox" value="seminar" class="filter-checkbox"> Seminar
+                            </label>
+                            <label>
+                                <input type="checkbox" value="workshop" class="filter-checkbox"> Workshop
+                            </label>
+                            <label>
+                                <input type="checkbox" value="malang" class="filter-checkbox"> Kota Malang
+                            </label>
+                            <label>
+                                <input type="checkbox" value="surabaya" class="filter-checkbox"> Kota Surabaya
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-tags" id="filterTags"></div>
                 </div>
 
-                <div class="filter-tags" id="filterTags"></div>
+                <div class="events-list" id="eventsList">
+                    <div class="event-item" 
+                         data-type="seminar" 
+                         data-city="malang" 
+                         data-title="Seminar About Musical - Sunday"
+                         data-speaker="A.R. Rahman"
+                         data-price="Rp 50.000"
+                         data-description="Seminar ini akan membahas sejarah, perkembangan, dan teknik dasar pementasan musikal Broadway dan lokal. Cocok untuk calon artis, seniman, dan penggemar teater. Pembahasan meliputi: Seni Vokal Musikal, Koreografi Panggung, dan Penyutradaraan Kreatif.">
+                        <img src="/image/image1.png" alt="Event" class="event-thumb" onerror="this.src='https://via.placeholder.com/120x120/14b8a6/ffffff?text=Event'">
+                        <div class="event-info">
+                            <h3>Aug 13</h3>
+                            <p class="event-time">🕐 Sun • 10:00am</p>
+                            <p class="event-title">Seminar About Musical - Sunday</p>
+                            <p class="event-location">📍 Sawojajar, Kota Malang</p>
+                        </div>
+                        <div class="event-actions">
+                            <a href="{{ route('event.booking', ['eventId' => 1]) }}" class="btn-view">View Details</a>
+                            <a href="{{ route('event.booking', ['eventId' => 1]) }}" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+
+                    <div class="event-item" 
+                         data-type="seminar" 
+                         data-city="surabaya" 
+                         data-title="Personality Seminar"
+                         data-speaker="Dr. Maya Sari, M.Psi"
+                         data-price="Gratis"
+                         data-description="Workshop intensif 4 jam untuk mengasah keterampilan komunikasi non-verbal dan membangun kepercayaan diri (self-confidence) di lingkungan profesional. Dapatkan tips praktis untuk wawancara kerja, negosiasi, dan presentasi publik yang efektif.">
+                        <img src="/image/image2.png" alt="Event" class="event-thumb" onerror="this.src='https://via.placeholder.com/120x120/14b8a6/ffffff?text=Event'">
+                        <div class="event-info">
+                            <h3>Aug 13</h3>
+                            <p class="event-time">🕐 Sun • 11:00am</p>
+                            <p class="event-title">Personality Seminar</p>
+                            <p class="event-location">📍 Ayani, Kota Surabaya</p>
+                        </div>
+                        <div class="event-actions">
+                            <a href="{{ route('event.booking', ['eventId' => 2]) }}" class="btn-view">View Details</a>
+                            <a href="{{ route('event.booking', ['eventId' => 2]) }}" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+
+                    <div class="event-item" 
+                         data-type="seminar" 
+                         data-city="malang" 
+                         data-title="Seminar Kerohanian"
+                         data-speaker="Ustadz Hanan Attaki"
+                         data-price="Donasi Sukarela"
+                         data-description="Sebuah sesi tausiyah yang menenangkan hati, membahas pentingnya keseimbangan spiritual di tengah kesibukan duniawi. Tema kali ini: 'Mencari Ketenangan di Tengah Badai Kehidupan'. Terbuka untuk umum.">
+                        <img src="/image/image3.png" alt="Event" class="event-thumb" onerror="this.src='https://via.placeholder.com/120x120/14b8a6/ffffff?text=Event'">
+                        <div class="event-info">
+                            <h3>Aug 13</h3>
+                            <p class="event-time">🕐 Sun • 11:00am</p>
+                            <p class="event-title">Seminar Kerohanian</p>
+                            <p class="event-location">📍 Sukun, Kota Malang</p>
+                        </div>
+                        <div class="event-actions">
+                            <a href="{{ route('event.booking', ['eventId' => 3]) }}" class="btn-view">View Details</a>
+                            <a href="{{ route('event.booking', ['eventId' => 3]) }}" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+
+                    <div class="event-item disabled" 
+                         data-type="seminar" 
+                         data-city="surabaya" 
+                         data-title="Seminar Confident"
+                         data-speaker="Joko Susilo"
+                         data-price="Rp 75.000"
+                         data-description="Sesi pelatihan mengenai cara memaksimalkan potensi diri dan tampil percaya diri dalam setiap situasi, baik personal maupun profesional. **Event sudah penuh.**">
+                        <img src="/image/image4.png" alt="Event" class="event-thumb" onerror="this.src='https://via.placeholder.com/120x120/6b7280/ffffff?text=Event'">
+                        <div class="event-info">
+                            <h3>Aug 13</h3>
+                            <p class="event-time">🕐 Sun • 10:00am</p>
+                            <p class="event-title">Seminar Confident</p>
+                            <p class="event-location">📍 Ayani, Kota Surabaya</p>
+                        </div>
+                        <div class="event-actions">
+                            <button class="btn-book disabled">Show More</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-           <div class="events-list" id="eventsList">
-
-    <div class="event-item" 
-         data-type="seminar" 
-         data-city="malang" 
-         data-title="Seminar About Musical - Sunday"
-         data-speaker="A.R. Rahman"
-         data-price="Rp 50.000"
-         data-description="Seminar ini akan membahas sejarah, perkembangan, dan teknik dasar pementasan musikal Broadway dan lokal. Cocok untuk calon artis, seniman, dan penggemar teater. Pembahasan meliputi: Seni Vokal Musikal, Koreografi Panggung, dan Penyutradaraan Kreatif.">
-        <img src="/image/image1.png" alt="Event" class="event-thumb" onerror="this.src='https://via.placeholder.com/120x120/14b8a6/ffffff?text=Event'">
-        <div class="event-info">
-            <h3>Aug 13</h3>
-            <p class="event-time">🕐 Sun • 10:00am</p>
-            <p class="event-title">Seminar About Musical - Sunday</p>
-            <p class="event-location">📍 Sawojajar, Kota Malang</p>
-        </div>
-        <div class="event-actions">
-            <button class="btn-view">View Details</button>
-            <button class="btn-book">Book Now</button>
-        </div>
-    </div>
-
-    <div class="event-item" 
-         data-type="seminar" 
-         data-city="surabaya" 
-         data-title="Personality Seminar"
-         data-speaker="Dr. Maya Sari, M.Psi"
-         data-price="Gratis"
-         data-description="Workshop intensif 4 jam untuk mengasah keterampilan komunikasi non-verbal dan membangun kepercayaan diri (self-confidence) di lingkungan profesional. Dapatkan tips praktis untuk wawancara kerja, negosiasi, dan presentasi publik yang efektif.">
-        <img src="/image/image2.png" alt="Event" class="event-thumb" onerror="this.src='https://via.placeholder.com/120x120/14b8a6/ffffff?text=Event'">
-        <div class="event-info">
-            <h3>Aug 13</h3>
-            <p class="event-time">🕐 Sun • 11:00am</p>
-            <p class="event-title">Personality Seminar</p>
-            <p class="event-location">📍 Ayani, Kota Surabaya</p>
-        </div>
-        <div class="event-actions">
-            <button class="btn-view">View Details</button>
-            <button class="btn-book">Book Now</button>
-        </div>
-    </div>
-
-    <div class="event-item" 
-         data-type="seminar" 
-         data-city="malang" 
-         data-title="Seminar Kerohanian"
-         data-speaker="Ustadz Hanan Attaki"
-         data-price="Donasi Sukarela"
-         data-description="Sebuah sesi tausiyah yang menenangkan hati, membahas pentingnya keseimbangan spiritual di tengah kesibukan duniawi. Tema kali ini: 'Mencari Ketenangan di Tengah Badai Kehidupan'. Terbuka untuk umum.">
-        <img src="/image/image3.png" alt="Event" class="event-thumb" onerror="this.src='https://via.placeholder.com/120x120/14b8a6/ffffff?text=Event'">
-        <div class="event-info">
-            <h3>Aug 13</h3>
-            <p class="event-time">🕐 Sun • 11:00am</p>
-            <p class="event-title">Seminar Kerohanian</p>
-            <p class="event-location">📍 Sukun, Kota Malang</p>
-        </div>
-        <div class="event-actions">
-            <button class="btn-view">View Details</button>
-            <button class="btn-book">Book Now</button>
-        </div>
-    </div>
-
-    <div class="event-item disabled" 
-         data-type="seminar" 
-         data-city="surabaya" 
-         data-title="Seminar Confident"
-         data-speaker="Joko Susilo"
-         data-price="Rp 75.000"
-         data-description="Sesi pelatihan mengenai cara memaksimalkan potensi diri dan tampil percaya diri dalam setiap situasi, baik personal maupun profesional. **Event sudah penuh.**">
-        <img src="/image/image4.png" alt="Event" class="event-thumb" onerror="this.src='https://via.placeholder.com/120x120/6b7280/ffffff?text=Event'">
-        <div class="event-info">
-            <h3>Aug 13</h3>
-            <p class="event-time">🕐 Sun • 10:00am</p>
-            <p class="event-title">Seminar Confident</p>
-            <p class="event-location">📍 Ayani, Kota Surabaya</p>
-        </div>
-        <div class="event-actions">
-            <button class="btn-book disabled">Show More</button>
-        </div>
-    </div>
-</div>
-        
-    </section>
+        </section>
+    @endif
 @endsection
 
 @push('scripts')
 <script>
+    // Function to select payment method
+    function selectPayment(method) {
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+        document.getElementById(method).closest('.payment-option').classList.add('selected');
+        document.getElementById(method).checked = true;
+    }
+
+    // Only run homepage scripts if not on booking page
+    @if(!isset($isBookingPage) || !$isBookingPage)
     // Inisialisasi Elemen
     const searchInput = document.getElementById('eventSearch');
     const mainSearch = document.getElementById('mainSearch');
     const clearSearch = document.getElementById('clearSearch');
     const filterCheckboxes = document.querySelectorAll('.filter-checkbox');
-    const eventItems = document.querySelectorAll('.event-item'); // Digunakan untuk fungsi filter
+    const eventItems = document.querySelectorAll('.event-item');
     const filterTags = document.getElementById('filterTags');
-    const eventItemsList = document.getElementById('eventsList');
     
-    // Elemen Modal
-    const eventModal = document.getElementById('eventModal');
-    const closeBtn = eventModal ? eventModal.querySelector('.close-btn') : null;
-    
-    // --- 1. Logika Toggle Dropdown Filter (Sudah Ada) ---
+    // --- 1. Logika Toggle Dropdown Filter ---
     const filterBtn = document.getElementById('filterBtn');
     const filterMenu = document.getElementById('filterMenu');
 
@@ -833,9 +1115,7 @@
         });
     }
 
-    // --- 2. Logika Search dan Filter Tags (Sudah Ada) ---
-
-    // Clear search button
+    // --- 2. Logika Search dan Filter Tags ---
     if (clearSearch && searchInput) {
         clearSearch.addEventListener('click', () => {
             searchInput.value = '';
@@ -844,7 +1124,6 @@
 
         searchInput.addEventListener('input', () => {
             clearSearch.style.display = searchInput.value ? 'block' : 'none';
-            // Panggil filterEvents saat input berubah
             filterEvents(); 
         });
     }
@@ -896,8 +1175,7 @@
         });
     });
 
-    // --- 3. Fungsi Filter Events (Diisi) ---
-
+    // --- 3. Fungsi Filter Events ---
     function filterEvents() {
         if (!searchInput) return;
 
@@ -935,103 +1213,15 @@
 
             // Tampilkan/Sembunyikan Item
             if (matchesSearch && matchesType && matchesCity) {
-                item.style.display = ''; // Tampilkan
+                item.style.display = '';
             } else {
-                item.style.display = 'none'; // Sembunyikan
+                item.style.display = 'none';
             }
         });
     }
-
-    // --- 4. Logika Pop-up (Modal) - Diperbarui dengan Detail Tambahan ---
-    
-    /**
-     * Opens the modal and populates it with event data, including description, speaker, and price.
-     * @param {HTMLElement} eventItem - The individual .event-item element.
-     */
-    function showEventDetails(eventItem) {
-        // Ambil data dari event item's children dan data-attributes
-        const title = eventItem.querySelector('.event-title').textContent.trim();
-        const date = eventItem.querySelector('.event-info h3').textContent.trim();
-        const time = eventItem.querySelector('.event-time').textContent.replace('🕐', '').trim();
-        const location = eventItem.querySelector('.event-location').textContent.replace('📍', '').trim();
-        const type = eventItem.dataset.type;
-        
-        // Ambil Data Tambahan dari data-* attributes yang baru
-        const description = eventItem.dataset.description || "Deskripsi event ini belum tersedia.";
-        const speaker = eventItem.dataset.speaker || "N/A";
-        const price = eventItem.dataset.price || "N/A";
-        
-        // Populate modal
-        document.getElementById('modalEventTitle').textContent = title;
-        document.getElementById('modalEventDate').textContent = date;
-        document.getElementById('modalEventTime').textContent = time;
-        document.getElementById('modalEventLocation').textContent = location;
-        document.getElementById('modalEventType').textContent = type.charAt(0).toUpperCase() + type.slice(1);
-        
-        // Isi Data Tambahan ke Elemen Modal
-        // Pastikan Anda telah menambahkan elemen HTML dengan ID berikut di modal Anda!
-        const speakerElement = document.getElementById('modalEventSpeaker');
-        const priceElement = document.getElementById('modalEventPrice');
-        const descriptionElement = document.getElementById('modalEventDescription');
-
-        if (speakerElement) speakerElement.textContent = speaker; 
-        if (priceElement) priceElement.textContent = price;
-        if (descriptionElement) descriptionElement.textContent = description;
-
-        // Set the Book Now button link
-        const bookNowLink = document.getElementById('modalBookNowLink');
-        bookNowLink.href = `/book-event?title=${encodeURIComponent(title)}&city=${eventItem.dataset.city}`;
-
-        // Show modal
-        eventModal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent scrolling background
-    }
-
-    /**
-     * Closes the modal.
-     */
-    function hideEventDetails() {
-        if (!eventModal) return;
-        eventModal.classList.remove('active');
-        document.body.style.overflow = ''; // Restore scrolling
-    }
-
-    // Listener Modal: Buka Modal (pada tombol 'View Details')
-    if (eventItemsList) {
-        eventItemsList.addEventListener('click', (e) => {
-            const button = e.target.closest('.btn-view');
-            if (button) {
-                const eventItem = button.closest('.event-item');
-                if (eventItem) {
-                    showEventDetails(eventItem);
-                }
-            }
-        });
-    }
-
-    // Listener Modal: Tutup Modal (tombol 'x')
-    if (closeBtn) {
-        closeBtn.addEventListener('click', hideEventDetails);
-    }
-
-    // Listener Modal: Tutup Modal (klik di luar konten)
-    if (eventModal) {
-        eventModal.addEventListener('click', (e) => {
-            if (e.target === eventModal) {
-                hideEventDetails();
-            }
-        });
-    }
-
-    // Listener Modal: Tutup Modal (tombol ESC)
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && eventModal && eventModal.classList.contains('active')) {
-            hideEventDetails();
-        }
-    });
 
     // Panggil filterEvents saat halaman dimuat pertama kali untuk inisialisasi
-    // filterEvents();
-
+    filterEvents();
+    @endif
 </script>
 @endpush
