@@ -13,15 +13,15 @@
         
         <div style="background: #f0fdfa; padding: 20px; border-radius: 12px; margin-bottom: 30px; text-align: left;">
             <h3 style="color: #14b8a6; margin-bottom: 15px;">Booking Details</h3>
-            <p><strong>Event:</strong> {{ $bookingData['event_title'] }}</p>
-            <p><strong>Name:</strong> {{ $bookingData['fullName'] }}</p>
-            <p><strong>Email:</strong> {{ $bookingData['email'] }}</p>
+            <p><strong>Event:</strong> {{ $bookingData['event_name'] }}</p>
+            <p><strong>Name:</strong> {{ $bookingData['registered_name'] }}</p>
+            <p><strong>Email:</strong> {{ $bookingData['registered_email'] }}</p>
             <p><strong>Reference:</strong> {{ $reference }}</p>
-            <p><strong>Amount Paid:</strong> {{ $bookingData['event_price'] }}</p>
+            <p><strong>Amount Paid:</strong> {{ $bookingData['eventCost'] }}</p>
         </div>
 
         <p style="color: #6b7280; margin-bottom: 30px;">
-            A confirmation email has been sent to <strong>{{ $bookingData['email'] }}</strong> with your ticket and event details.
+            A confirmation email has been sent to <strong>{{ $bookingData['registered_email'] }}</strong> with your ticket and event details.
         </p>
 
         <div style="display: flex; gap: 15px; justify-content: center;">
