@@ -3,13 +3,9 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
-class Event extends Authenticatable
+class Event extends Model
 {
-    use HasFactory,HasApiTokens,Notifiable;
     protected  $table = "event_table";
     protected $primaryKey = "event_id";
     protected $fillable = [

@@ -3,23 +3,49 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Event;
+use App\Models\EventDetail;
+use App\Models\Registered;
+
 
 class PaymentController extends Controller
 {
     public function process(Request $request)
     {
         // Validate the form data
-        $validated = $request->validate([
+        $request->validate([
             'fullName' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'required|string',
-            'payment_method' => 'required|string',
-            'event_id' => 'required|integer',
-            'event_title' => 'required|string',
-            'event_price' => 'required|string'
+            'event_id' => 'required|integer'
         ]);
+        
+        $event = Event::with('eventDetail')->where('event_id',$request->event_id)->first();
 
-        // In a real application, you would:
+        if (!$event) {
+            abort(404, 'Event not found');
+        }
+
+        //jika tidak berbayar
+        if(!$event->eventDetail->paid_status){
+            $registered = [
+                'event_id' => $request->event_id,
+                'registered_name' => $request->fullName,
+                'registered_email' => $request->email,
+                'registered_phone' => $request->phone,
+                'payment_status' => true,
+            ];
+            $register= Registered::insert($registered);          
+        return redirect()->route('payment.success');
+        }
+        
+        //if paid_status == true
+        $validated = $request->validate([
+            'payment_method' => 'required|string',
+            'event_title' => 'required|string',
+            'event_price' => 'required|string',
+        ]);
+        // In a real application, you would:    
         // 1. Save the booking to database
         // 2. Generate invoice
         // 3. Integrate with payment gateway (Midtrans, Xendit, etc.)

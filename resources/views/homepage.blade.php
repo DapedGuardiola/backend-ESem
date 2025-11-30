@@ -901,9 +901,9 @@
                     <h2 class="form-title">Book Your Seat</h2>
                     <form id="bookingForm" action="{{ route('payment.process') }}" method="POST">
                         @csrf
-                        <input type="hidden" name="event_id" value="{{ $eventData['id'] }}">
-                        <input type="hidden" name="event_title" value="{{ $eventData['title'] }}">
-                        <input type="hidden" name="event_price" value="{{ $eventData['price'] }}">
+                        <input type="hidden" name="event_id" value="{{ $eventData->event_id}}">
+                        <input type="hidden" name="event_title" value="{{ $eventData->event_name}}">
+                        <input type="hidden" name="event_price" value="{{ $eventData->eventDetail->cost }}">
 
                         <div class="form-group">
                             <label for="fullName">Full Name</label>
@@ -922,7 +922,7 @@
                             <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number"
                                 value="{{ old('phone') }}">
                         </div>
-
+                        @if($eventData->eventDetail->paid_status)
                         <div class="payment-methods">
                             <h4>Select Payment Method</h4>
                             <div class="payment-option" onclick="selectPayment('credit_card')">
@@ -938,7 +938,8 @@
                                 <label for="ewallet">📱 E-Wallet</label>
                             </div>
                         </div>
-
+                        @endif
+                    
                         <button type="submit" class="btn-proceed">Proceed to Payment</button>
                     </form>
                 </div>
