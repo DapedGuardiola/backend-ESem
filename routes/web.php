@@ -11,6 +11,4 @@ Route::post('/payment/process', [PaymentController::class, 'process'])->name('pa
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
-Route::get('/home', function () {
-    return view('homepage');
-})->name('home');
+Route::get('/',[HomeController::class,'home']);

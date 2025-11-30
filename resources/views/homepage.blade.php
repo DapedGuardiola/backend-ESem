@@ -923,7 +923,7 @@
                 </div>
                 <div class="cards-grid">
                     <div class="event-card">
-                        <img src="/image/image1.png" alt="Sharing Session" onerror="this.src='https://via.placeholder.com/400x320/14b8a6/ffffff?text=Sharing+Session'">
+                        <img src="/image/image.png" alt="Sharing Session" onerror="this.src='https://via.placeholder.com/400x320/14b8a6/ffffff?text=Sharing+Session'">
                         <div class="card-overlay">
                             <a href="{{ route('event.booking', ['eventId' => 1]) }}" class="card-btn">Register Now</a>
                         </div>
@@ -954,7 +954,7 @@
         <section class="recent-events">
             <div class="container">
                 <div class="section-header">
-                    <h2>We Recent Events</h2>
+                    <h2>Our Recent Events</h2>
                 </div>
                 
                 <div class="filter-controls">

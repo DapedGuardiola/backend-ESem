@@ -59,7 +59,7 @@ class PaymentController extends Controller
         // Clear session data
         session()->forget(['booking_data', 'booking_reference']);
 
-        return view('payment.success', [
+        return view('payments.success', [
             'bookingData' => $bookingData,
             'reference' => $reference
         ]);
