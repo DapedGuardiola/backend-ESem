@@ -17,7 +17,6 @@
             <p><strong>Name:</strong> {{ $bookingData['registered_name'] }}</p>
             <p><strong>Email:</strong> {{ $bookingData['registered_email'] }}</p>
             <p><strong>Reference:</strong> {{ $reference }}</p>
-            <p><strong>Amount Paid:</strong> {{ $bookingData['eventCost'] }}</p>
         </div>
 
         <p style="color: #6b7280; margin-bottom: 30px;">

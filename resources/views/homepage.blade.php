@@ -902,8 +902,9 @@
                     <form id="bookingForm" action="{{ route('payment.process') }}" method="POST">
                         @csrf
                         <input type="hidden" name="event_id" value="{{ $eventData->event_id}}">
-                        <input type="hidden" name="event_title" value="{{ $eventData->event_name}}">
-                        <input type="hidden" name="event_price" value="{{ $eventData->eventDetail->cost }}">
+                        <input type="hidden" name="event_name" value="{{ $eventData->event_name}}">
+                        <input type="hidden" name="event_cost" value="{{ $eventData->eventDetail->cost }}">
+                        <input type="hidden" name="paid_status" value="{{ $eventData->eventDetail->paid_status }}">
 
                         <div class="form-group">
                             <label for="fullName">Full Name</label>
@@ -922,25 +923,11 @@
                             <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number"
                                 value="{{ old('phone') }}">
                         </div>
-                        @if($eventData->eventDetail->paid_status)
-                        <div class="payment-methods">
-                            <h4>Select Payment Method</h4>
-                            <div class="payment-option" onclick="selectPayment('credit_card')">
-                                <input type="radio" id="credit_card" name="payment_method" value="credit_card" required>
-                                <label for="credit_card">💳 Credit Card</label>
-                            </div>
-                            <div class="payment-option" onclick="selectPayment('bank_transfer')">
-                                <input type="radio" id="bank_transfer" name="payment_method" value="bank_transfer">
-                                <label for="bank_transfer">🏦 Bank Transfer</label>
-                            </div>
-                            <div class="payment-option" onclick="selectPayment('ewallet')">
-                                <input type="radio" id="ewallet" name="payment_method" value="ewallet">
-                                <label for="ewallet">📱 E-Wallet</label>
-                            </div>
-                        </div>
-                        @endif
-                    
+                        @if(!$eventData->eventDetail->paid_status)
+                        <button type="submit" class="btn-proceed">Book Now</button>
+                        @else
                         <button type="submit" class="btn-proceed">Proceed to Payment</button>
+                        @endif
                     </form>
                 </div>
             </div>

@@ -19,31 +19,22 @@ class PaymentController extends Controller
             'fullName' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'required|string',
-            'event_id' => 'required|integer'
+            'event_id' => 'required|integer',
+            'event_name' => 'required|string',
         ]);
 
-        $event = Event::with('eventDetail')->where('event_id', $request->event_id)->first();
-
-        if (!$event) {
-            abort(404, 'Event not found');
-        }
-
-        //jika tidak berbayar
-        if (!$event->eventDetail->paid_status) {
-
-            $eventName = $event->event_name;
-            $eventCost = $event->eventDetail->cost;
-
-            $bookingData = [
+        $bookingData = [
                 'event_id' => $request->event_id,
-                'event_name' => $eventName,
+                'event_name' => $request->event_name,
                 'registered_name' => $request->fullName,
                 'registered_email' => $request->email,
                 'registered_phone' => $request->phone,
-                'eventCost' => $eventCost,
+                'event_cost' => $request->event_cost,                
                 'payment_status' => true,
             ];
 
+        //jika tidak berbayar
+        if (!$request->paid_status) {
             Registered::insert([
                 'event_id' => $bookingData['event_id'],
                 'registered_name' => $bookingData['registered_name'],
@@ -59,17 +50,6 @@ class PaymentController extends Controller
             ]);
             return redirect()->route('payment.success');
         }
-
-        //if paid_status == true
-        $validated = $request->validate([
-            'payment_method' => 'required|string',
-            'event_title' => 'required|string',
-            'event_price' => 'required|string',
-        ]);
-        // In a real application, you would:    
-        // 1. Save the booking to database
-        // 2. Generate invoice
-        // 3. Integrate with payment gateway (Midtrans, Xendit, etc.)
 
         MidtransConfig::$serverKey = config('midtrans.server_key');
         MidtransConfig::$isProduction = config('midtrans.is_production');
@@ -93,7 +73,7 @@ class PaymentController extends Controller
         $snapToken = Snap::getSnapToken($params);
 
         // Kirim ke view custom
-        return view('payments.snap', compact('snapToken', 'orderId', 'event'));
+        return view('payments.snap', compact('snapToken', 'orderId', 'event','bookingData'));
     }
 
     // private function simulatePaymentGateway($data)
