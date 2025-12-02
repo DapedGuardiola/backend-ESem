@@ -9,6 +9,8 @@ use App\Models\Registered;
 use Midtrans\Snap;
 use Midtrans\Config as MidtransConfig;
 use GuzzleHttp\Client;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Storage;
 
 class PaymentController extends Controller
 {
@@ -24,24 +26,17 @@ class PaymentController extends Controller
         ]);
 
         $bookingData = [
-                'event_id' => $request->event_id,
-                'event_name' => $request->event_name,
-                'registered_name' => $request->fullName,
-                'registered_email' => $request->email,
-                'registered_phone' => $request->phone,
-                'event_cost' => $request->event_cost,                
-                'payment_status' => true,
-            ];
+            'event_id' => $request->event_id,
+            'event_name' => $request->event_name,
+            'registered_name' => $request->fullName,
+            'registered_email' => $request->email,
+            'registered_phone' => $request->phone,
+            'event_cost' => $request->event_cost,
+            'payment_status' => true,
+        ];
 
         //jika tidak berbayar
         if (!$request->paid_status) {
-            Registered::insert([
-                'event_id' => $bookingData['event_id'],
-                'registered_name' => $bookingData['registered_name'],
-                'registered_email' => $bookingData['registered_email'],
-                'registered_phone' => $bookingData['registered_phone'],
-                'payment_status' => $bookingData['payment_status'],
-            ]);
 
             $bookingReference = 'INV-' . time();
             session([
@@ -72,8 +67,13 @@ class PaymentController extends Controller
 
         $snapToken = Snap::getSnapToken($params);
 
+        $bookingReference = $orderId;
+        session([
+            'booking_data' => $bookingData,
+            'booking_reference' => $bookingReference
+        ]);
         // Kirim ke view custom
-        return view('payments.snap', compact('snapToken', 'orderId', 'event','bookingData'));
+        return view('payments.snap', compact('snapToken', 'orderId', 'bookingData'));
     }
 
     // private function simulatePaymentGateway($data)
@@ -93,16 +93,38 @@ class PaymentController extends Controller
         $bookingData = session('booking_data');
         $reference = session('booking_reference');
 
+        $Registered = Registered::Create([
+            'event_id' => $bookingData['event_id'],
+            'registered_name' => $bookingData['registered_name'],
+            'registered_email' => $bookingData['registered_email'],
+            'registered_phone' => $bookingData['registered_phone'],
+            'payment_status' => $bookingData['payment_status'],
+        ]);
+
+        $qrData = [
+            'event_id' => $bookingData['event_id'],
+            'registered_id' => $Registered->registered_id,
+        ];
+        $img = public_path('image/icon.png');
+        $qrBinary = QrCode::format('png')
+            ->size(340)
+            ->merge($img, 0.3, true)
+            ->generate(json_encode($qrData));
+        $qrBase64 = base64_encode($qrBinary);
+        $qrPng = QrCode::format('png')->size(300)->merge($img, 0.3, true)->generate(json_encode($qrData));
+        $fileName = "QR_event_{$qrData['event_id']}_id_{$qrData['registered_id']}.png";
+        Storage::disk('public')->put("qr/{$fileName}", $qrPng);
         if (!$bookingData) {
             return redirect('/');
         }
 
-        // Clear session data
         session()->forget(['booking_data', 'booking_reference']);
 
         return view('payments.success', [
             'bookingData' => $bookingData,
-            'reference' => $reference
+            'reference' => $reference,
+            'qrBase64' => $qrBase64,
+            'fileName' => $fileName,
         ]);
     }
 

@@ -8,6 +8,7 @@ use App\Models\Participant;
 
 class Registered extends Model
 {
+    public $timestamps = false;
     protected  $table = "registered_table";
     protected $primaryKey = "registered_id";
     protected $fillable = [

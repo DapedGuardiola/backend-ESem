@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <h2>Bayar Event: {{ $event->event_name }}</h2>
-    <p>Harga: Rp {{ number_format($event->eventDetail->cost, 0, ',', '.') }}</p>
+    <h2>Bayar Event: {{ $bookingData['event_name'] }}</h2>
+    <p>Harga: Rp {{ number_format($bookingData['event_cost'], 0, ',', '.') }}</p>
 
     <!-- Tempat QR / Snap akan muncul -->
     <div id="midtrans-payment"></div>
