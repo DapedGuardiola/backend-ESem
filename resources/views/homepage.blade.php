@@ -37,7 +37,7 @@
 
         .event-image {
             width: 200px;
-            height: 200px;
+            height: 250px;
             border-radius: 12px;
             object-fit: cover;
             background: #f3f4f6;
@@ -860,7 +860,9 @@
                 <!-- Event Details -->
                 <div class="event-details-card">
                     <div class="event-header">
-                        <img src=" {{ asset('image/image3.png') }}" alt="{{ $eventData->event_name }}" class="event-image"
+                        <img src="{{ asset('image/event' . $eventData->event_id . '.png') }}"
+                            alt="Event {{ $eventData->event_id }}"
+                            class="event-image"
                             onerror="this.src='https://via.placeholder.com/400x400/14b8a6/ffffff?text=Event'">
                         <div class="event-info">
                             <h1>{{ $eventData->event_name}}</h1>
@@ -966,20 +968,25 @@
                 </div>
                 <div class="cards-wrapper">
                     <button class="scroll-btn left" id="btnLeft">&#10094;</button>
-                    <div id="cardsGrid" class="cards-grid"> @foreach($openRegisterEvent as $event) <div class="event-card">
-                            <img src=" {{asset('image/image3.png')}}" alt="Tech Fair"
-                                onerror="this.src='https://via.placeholder.com/400x320/14b8a6/ffffff?text=Tech+Fair'">
-                            <div class="card-overlay">
-                                <a href=" {{ route('event.booking', ['eventId' => $event->event_id]) }}"
-                                    class="card-btn">Register
-                                    Now</a>
-                            </div>
+                    <div id="cardsGrid" class="cards-grid"> 
+                        @foreach($openRegisterEvent as $event) 
+                        <div class="event-card">
+                           <img src="{{ asset('image/event' . $event->event_id . '.png') }}"
+                            alt="Event {{ $event->event_id }}"
+                            onerror="this.src='https://via.placeholder.com/400x320/14b8a6/ffffff?text=Event+Image'">
+
+                          <div class="card-overlay">
+                            <a href="{{ route('event.booking', ['eventId' => $event->event_id]) }}" class="card-btn">
+                                Register Now
+                            </a>
                         </div>
-                    @endforeach
+
+                        </div>
+                        @endforeach
 
                         @foreach($comingSoonEvent as $event)
                             <div class="event-card">
-                                <img src=" {{asset('image/image3.png')}}" alt="AI Forum"
+                                <img src="{{ asset('image/event' . $event->event_id . '.png') }}"
                                     onerror="this.src='https://via.placeholder.com/400x320/6b7280/ffffff?text=AI+Forum'">
                                 <div class="card-overlay">
                                     <button class="card-btn disabled">Coming Soon</button>
@@ -1010,7 +1017,7 @@
 
                     <div class="filter-dropdown">
                         <button class="filter-btn" id="filterBtn">
-                            <span class="emoji">🔽</span>
+                            <span class="emoji"></span>
                             <span>Filter Events</span>
                         </button>
                         <div class="filter-menu" id="filterMenu">
@@ -1037,8 +1044,10 @@
                         <div class="event-item disabled" data-type="seminar" data-city="surabaya"
                             data-title="{{$event->event_name}}" data-speaker="Joko Susilo" data-price="Rp 75.000"
                             data-description="Sesi pelatihan mengenai cara memaksimalkan potensi diri dan tampil percaya diri dalam setiap situasi, baik personal maupun profesional. **Event sudah penuh.**">
-                            <img src="/image/image4.png" alt="Event" class="event-thumb"
-                                onerror="this.src='https://via.placeholder.com/120x120/6b7280/ffffff?text=Event'">
+                           <img src="{{ asset('image/event' . $event->event_id . '.png') }}"
+                            alt="Event {{ $event->event_id }}"
+                            class="event-thumb"
+                            onerror="this.src='https://via.placeholder.com/120x120/6b7280/ffffff?text=Event'">
                             <div class="event-info">
                                 <h3>{{ \Carbon\Carbon::parse($event->eventDetail->date)->format('M d Y') }}</h3>
                                 <p class="event-time">
