@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TestController;
+use App\Http\Controllers\Api\EventController;
 
 Route::get('/', function() {
     return 'Laravel is running!';
@@ -11,6 +12,7 @@ Route::get('/', function() {
 Route::post('/register', [AuthController::class,'Register']);
 Route::post('/login',[AuthController::class,'Login']);
 
+Route::get('/events',[EventController::class,'getEvent']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'User']);
     Route::post('/logout', [AuthController::class, 'logout']);
