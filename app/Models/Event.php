@@ -16,4 +16,7 @@ class Event extends Model
     public function eventDetail(){
         return $this->hasOne(EventDetail::class,'event_id','event_id');
     }
+    public function participant(){
+        return $this->hasMany(Participant::class,'event_id','event_id');
+    }
 }
