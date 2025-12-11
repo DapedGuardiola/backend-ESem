@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Registered;
+use App\Models\Event;
 
 class Participant extends Model
 {
@@ -18,7 +19,11 @@ class Participant extends Model
         "registered_id",
     ];
 
+
     public function registered(){
         return $this->belongsTo(Registered::class,'registered_id','registered_id');
+    }
+    public function event(){
+        return $this->belongsTo(Event::class,'event_id','event_id');
     }
 }

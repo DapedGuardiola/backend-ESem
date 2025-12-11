@@ -7,13 +7,14 @@ use App\Models\EventDetail;
 use Carbon\Carbon;
 use App\Models\Registered;
 use Illuminate\Support\Facades\DB;
+use App\Models\Participant;
 
 class EventController extends Controller
 {
     public function getEvent(Request $request)
     {
         $comingSoonEvent = Event::with('eventDetail')->where('event_status', 'Coming Soon')->get();
-        $openRegisterEvent = Event::with('eventDetail')->where('event_status', 'Open Register')->get();
+        $openRegisterEvent = Event::with(relations: 'eventDetail')->where('event_status', 'Open Register')->get();
         $recentEvent = Event::with('eventDetail')->where('event_status', 'Ended')->get();
         $activeEvent = Event::with('eventDetail')->where('event_status', 'On Going')->get();
         $allCollections = [
@@ -33,8 +34,8 @@ class EventController extends Controller
                     $event->eventDetail->date_string = $carbonDate->translatedFormat('d F Y');
                     $event->eventDetail->time_string = $carbonDate->format('H:i');
                 }
-                $event->eventDetail->registered_count = $registeredCounts[$event->event_id]->total_registered??0;
-                $event->eventDetail->image_url = url('storage/event/event' . $event->event_id . '.png');
+                $event->eventDetail->registered_count = $registeredCounts[$event->event_id]->total_registered ?? 0;
+                $event->eventDetail->image_url = url('https://res.cloudinary.com/dv5yjqds0/image/upload/v1765423290/event2_r3oaea.png');
                 return $event;
             })->toArray();
         }
@@ -45,6 +46,28 @@ class EventController extends Controller
             'openRegisterEvent' => $allCollections['openRegisterEvent'],
             'recentEvent' => $allCollections['recentEvent'],
             'activeEvent' => $allCollections['activeEvent'],
+        ], 200);
+    }
+    public function getDetail(int $id)
+    {
+        $event = Event::with(['eventDetail'])->where('event_id', $id)->first();
+        $participants = Participant::with('registered')
+        ->where('event_id', $id)
+        ->get()
+        ->groupBy('registered_id');
+        if ($event->eventDetail && $event->eventDetail->date) {
+            // Pastikan date selalu string ISO
+            $carbonDate = Carbon::parse($event->eventDetail->date);
+            $event->eventDetail->date_string = $carbonDate->translatedFormat('d F Y');
+            $event->eventDetail->time_string = $carbonDate->format('H:i');
+        }
+        $event->eventDetail->registered_count = $registeredCounts[$event->event_id]->total_registered ?? 0;
+        $event->eventDetail->image_url = url('https://res.cloudinary.com/dv5yjqds0/image/upload/v1765423290/event2_r3oaea.png');
+
+        return response()->json([
+            'status' => 'success',
+            'event'=> $event,
+            'participants'=>$participants,
         ], 200);
     }
 }
