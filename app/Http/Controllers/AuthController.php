@@ -11,10 +11,10 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
     public function User(Request $request)
-{
-    // $request->user() otomatis ambil user dari token
-    return response()->json($request->user());
-}
+    {
+        // $request->user() otomatis ambil user dari token
+        return response()->json($request->user());
+    }
     public function Register(Request $req)
     {
         $rules = [
@@ -59,7 +59,6 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ];
-
         try {
             $req->validate($rules);
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -94,12 +93,12 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'user_id'    => $user->user_id,
-                'email'      => $user->email,
-                'role_id'    => $user->role_id,
-                'nama'       => $user->detail->user_name ?? '',
-                'alamat'     => $user->detail->address ?? '',
-                'telepon'    => $user->detail->user_phone ?? '',
+                'user_id' => $user->user_id,
+                'email' => $user->email,
+                'role_id' => $user->role_id,
+                'nama' => $user->detail->user_name ?? '',
+                'alamat' => $user->detail->address ?? '',
+                'telepon' => $user->detail->user_phone ?? '',
             ]
         ]);
     }
@@ -109,14 +108,20 @@ class AuthController extends Controller
         $user = $req->user();
         $detail = $user->detail;
 
+        // definisi aturan
         $rules = [
-            'user_name' => 'required|string',
-            'address' => 'required|string',
-            'user_phone' => 'required|string',
+            'user_name' => 'string',
+            'address' => 'string',
+            'user_phone' => 'string',
+            'email' => 'email|unique:users,email,' . $user->id,
         ];
 
-        $validator = Validator::make($req->all(), $rules);
-        
+        // ambil hanya field yang dikirim
+        $data = $req->only(array_keys($rules));
+
+        // validasi hanya field yang dikirim
+        $validator = Validator::make($data, $rules);
+
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -124,21 +129,22 @@ class AuthController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
+        
+        if ($req->has('email')) {
+            $user->update([
+                'email' => $req->email
+            ]);
+            unset($data['email']); // hilangkan agar tidak dikirim ke detail
+        }
 
-        $detail->update([
-            'user_name' => $req->user_name,
-            'address' => $req->address,
-            'user_phone' => $req->user_phone,
-        ]);
-
+        // jika masih ada field untuk detail → update ke user_detail
+        if (!empty($data)) {
+            $detail->update($data);
+        }
         return response()->json([
             'success' => true,
             'message' => 'Profil berhasil diperbarui',
-            'data' => [
-                'nama' => $detail->user_name,
-                'alamat' => $detail->address,
-                'telepon' => $detail->user_phone,
-            ]
+            'data' => $data
         ]);
     }
 }

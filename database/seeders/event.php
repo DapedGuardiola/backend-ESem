@@ -15,24 +15,44 @@ class event extends Seeder
     {
         $events = [
             [
-                'event_name' => true, // Contoh: True
+                'event_name' => 'Pelatihan Keamanan Jaringan Tingkat Lanjut',
                 'event_status' => 'Ended',
             ],
             [
-                'event_name' => false, // Contoh: False
+                'event_name' => 'Sesi Talkshow Karir Digital',
                 'event_status' => 'Ended',
             ],
             [
-                'event_name' => true,
+                'event_name' => 'Workshop Pengembangan API Laravel',
                 'event_status' => 'Ended',
             ],
             [
-                'event_name' => false,
+                'event_name' => 'Konferensi Teknologi Blockchain 2026',
                 'event_status' => 'Canceled',
             ],
             [
-                'event_name' => true,
+                'event_name' => 'Webinar Desain Grafis Dasar',
                 'event_status' => 'Ongoing',
+            ],
+            [
+                'event_name' => 'Seminar Keamanan Siber Dasar',
+                'event_status' => 'Coming Soon',
+            ],
+            [
+                'event_name' => 'Bootcamp Frontend Developer 2026',
+                'event_status' => 'Open Register',
+            ],
+            [
+                'event_name' => 'Workshop UI/UX Research Fundamentals',
+                'event_status' => 'Open Register',
+            ],
+            [
+                'event_name' => 'Pelatihan Administrasi Server Linux',
+                'event_status' => 'Coming Soon',
+            ],
+            [
+                'event_name' => 'Pelatihan Digital Marketing Pemula',
+                'event_status' => 'Open Register',
             ],
         ];
 

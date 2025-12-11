@@ -14,7 +14,12 @@ return new class extends Migration
         Schema::create('event_detail_table', function (Blueprint $table) {
             $table->id('event_detail_id');
             $table->unsignedBigInteger('event_id');
-            $table->string('event_name');
+            $table->text('event_description');
+            $table->string('event_address');
+            $table->string('event_speaker');
+            $table->date('register_open_date');
+            $table->date('register_closed_date');
+            $table->boolean('register_status');
             $table->integer('total_participant');
             $table->dateTime('date');
             $table->unsignedBigInteger('event_handler');
