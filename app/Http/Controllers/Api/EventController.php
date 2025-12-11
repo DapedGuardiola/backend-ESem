@@ -52,9 +52,10 @@ class EventController extends Controller
     {
         $event = Event::with(['eventDetail'])->where('event_id', $id)->first();
         $participants = Participant::with('registered')
-        ->where('event_id', $id)
-        ->get()
-        ->groupBy('registered_id');
+            ->where('event_id', $id)
+            ->select('registered_id', DB::raw('GROUP_CONCAT(session_id) as sessions'))
+            ->groupBy('registered_id')
+            ->get();
         if ($event->eventDetail && $event->eventDetail->date) {
             // Pastikan date selalu string ISO
             $carbonDate = Carbon::parse($event->eventDetail->date);
@@ -66,8 +67,8 @@ class EventController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'event'=> $event,
-            'participants'=>$participants,
+            'event' => $event,
+            'participants' => $participants,
         ], 200);
     }
 }
