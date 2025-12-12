@@ -35,8 +35,8 @@ class EventController extends Controller
                     $event->eventDetail->date_string = $carbonDate->translatedFormat('d F Y');
                     $event->eventDetail->time_string = $carbonDate->format('H:i');
                 }
-                $event->eventDetail->registered_count = $registeredCounts[$event->event_id]->total_registered ?? 0;
-                $event->eventDetail->image_url = url('https://res.cloudinary.com/dv5yjqds0/image/upload/v1765423290/event2_r3oaea.png');
+                $event->eventDetail->setAttribute('registered_count', $registeredCounts[$event->event_id]->total_registered ?? 0);
+                $event->eventDetail->setAttribute('image_url', url('https://res.cloudinary.com/dv5yjqds0/image/upload/v1765423290/event2_r3oaea.png'));
                 return $event;
             })->toArray();
         }
@@ -75,7 +75,7 @@ class EventController extends Controller
     public function createEvent(Request $request)
     {
         // Validasi seperlunya saja
-        
+
         try {
             // Validasi seperlunya saja
             $validated = $request->validate([
@@ -110,11 +110,11 @@ class EventController extends Controller
             "event_description" => $request->event_description,
             "event_address" => $request->event_address,
             "event_speaker" => $request->event_speaker,
-            "register_open_date" => $request->register_open_date. " 00:00:00",
-            "register_closed_date" => $request->register_closed_date. " 00:00:00",
+            "register_open_date" => $request->register_open_date . " 00:00:00",
+            "register_closed_date" => $request->register_closed_date . " 00:00:00",
             "register_status" => $request->register_status ?? false,
             "total_participant" => 0,        // default 0
-            "date" => $request->date. " 00:00:00",
+            "date" => $request->date . " 00:00:00",
             "event_handler" => $request->user_id,
             "cost" => $request->cost,                     // default 0
             "total_income" => 0,             // default 0
