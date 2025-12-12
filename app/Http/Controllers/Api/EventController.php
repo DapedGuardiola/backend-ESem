@@ -35,7 +35,7 @@ class EventController extends Controller
                     $event->eventDetail->date_string = $carbonDate->translatedFormat('d F Y');
                     $event->eventDetail->time_string = $carbonDate->format('H:i');
                 }
-                $event->eventDetail->setAttribute('registered_count', $registeredCounts[$event->event_id]->total_registered ?? 0);
+                $event->eventDetail->setAttribute('registered_count', 0);
                 $event->eventDetail->setAttribute('image_url', url('https://res.cloudinary.com/dv5yjqds0/image/upload/v1765423290/event2_r3oaea.png'));
                 return $event;
             })->toArray();
