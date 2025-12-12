@@ -37,6 +37,7 @@ class EventDetail extends Model
         "date",
         "event_handler",
         "cost",
+        "total_income",
         "paid_status"
     ];
 
